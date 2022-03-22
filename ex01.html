@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>    
+    <form id="frm">
+        <div>
+            <label>입력칸1</label>
+            <input type="text" id="ipt1" data> 
+        </div>
+
+        <div>
+            <label>입력칸2</label>
+            <input type="text" id="ipt2"> 
+        </div>
+
+        <div>
+            <label>체크박스</label>
+            <input type="checkbox" id="chk1" data> 
+            <input type="checkbox" id="chk2" data> 
+        </div>
+
+        <div>
+            <label>라디오박스</label>
+            <input type="radio" id="radio1" name="rd" data> 
+            <input type="radio" id="radio2" name="rd" data> 
+        </div>  
+
+        <div>
+            <label>셀렉트박스</label>
+            <select id="combo1" data>
+                <option value=""></option>
+                <option value="1">테스트</option>
+            </select>
+        </div>
+
+        <div>
+            <label>이미지</label>
+            <img src="/JS.png" style="width: 50px;" data /> 
+        </div>
+
+        <div>
+            <label>첨부파일</label>
+            <input type="file" accept="image/png, image/jpeg" data> 
+        </div>
+    </form>
+
+    <button type="button" onclick="reset()">초기화</button>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        function reset() {
+            const frm = document.querySelector("#frm");
+
+            $.each(frm, function(index, element) {
+                console.log(element);
+                console.log($(element).is("[data]"));
+
+                if ($(element).is("[data]")) {
+                    if ($(element).is("input") === true && $(element).prop("type") === "text" ||
+                            $(element).is("input") === true && $(element).prop("type") === "hidden" ||
+                                $(element).is("textarea") == true) {
+                        $(element).val("");
+                    }
+
+                    if ($(element).is("select") === true) {                        
+                        $(element).find('option:first').prop("selected", "selected");
+                    }
+
+                    if ($(element).is("input") === true && $(element).prop("type") === "checkbox") {
+                        $(element).prop("checked", false);
+                    }
+
+                    if ($(element).is("input") === true && $(element).prop("type") === "radio") {
+                        $("input:radio[name="+ $(element).prop("name") +"]").eq(0).prop("checked", true);
+                    }
+
+                    if ($(element).is("input") === true && $(element).prop("type") === "file") {
+                        $(element).replaceWith($(element).clone(true));
+                        $(element).val("");
+                    }
+                }
+            });
+                
+            //이미지 초기화
+            $.each($("img"), function(index, element) {                
+                if ($(element).is("[data]")) {                        
+                    $(element).prop("src", "");
+                }                
+            });            
+        }
+    </script>
+</body>
+</html> 
